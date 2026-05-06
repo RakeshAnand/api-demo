@@ -7,8 +7,39 @@ import com.example.endpoints.UserEndpoints;
 import com.example.payloads.LoginRequest;
 import com.example.payloads.User;
 import io.restassured.response.Response;
+import com.example.base.BaseTest;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.testng.annotations.DataProvider;
+import java.io.File;
+import java.io.IOException;
+import java.util.List;
 
-public class UserTests {
+public class UserTests extends BaseTest {
+
+    @DataProvider(name = "userData")
+    public Object[][] getUserData() throws IOException {
+        ObjectMapper mapper = new ObjectMapper();
+
+        // Read JSON file and convert to a List of User objects
+        List<User> users = mapper.readValue(
+                new File("src/test/resources/testdata/user_data.json"),
+                new TypeReference<List<User>>() {
+                });
+
+        // Convert List to Object[][] for TestNG
+        Object[][] data = new Object[users.size()][1];
+        for (int i = 0; i < users.size(); i++) {
+            data[i][0] = users.get(i);
+        }
+        return data;
+    }
+
+    @Test(dataProvider = "userData", enabled = true)
+    public void testCreateMultipleUsers(User userPayload) {
+        // Your RestAssured logic here using userPayload.getName(), etc.
+        System.out.println("Testing user: " + userPayload.getName());
+    }
 
     private User userPayload;
 

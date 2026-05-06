@@ -1,18 +1,16 @@
 package com.example.utilities;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
 public class ConfigReader {
     private static Properties properties = new Properties();
 
-    // Static block to load the file as soon as the class is referenced
     static {
-        try (InputStream input = ConfigReader.class.getClassLoader()
-                .getResourceAsStream("config.properties")) {
-
+        try (InputStream input = ConfigReader.class.getClassLoader().getResourceAsStream("config.properties")) {
             if (input == null) {
-                System.out.println("Sorry, unable to find config.properties");
+                System.out.println("ERROR: Cannot find config.properties in src/test/resources");
             } else {
                 properties.load(input);
             }
@@ -22,6 +20,9 @@ public class ConfigReader {
     }
 
     public static String getProperty(String key) {
-        return properties.getProperty(key);
+        String value = properties.getProperty(key);
+        // Add this debug line
+        System.out.println("DEBUG: Looking for key [" + key + "], found value [" + value + "]");
+        return value;
     }
 }
