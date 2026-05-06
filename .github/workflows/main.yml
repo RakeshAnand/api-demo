@@ -1,35 +1,36 @@
-name: API Test Automation
+name: Java API Test Automation
 
 on:
   push:
-    branches: [ main, master ]
+    branches: [ main ]
   pull_request:
-    branches: [ main, master ]
+    branches: [ main ]
 
 jobs:
-  test:
+  build-and-test:
     runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        node-version: [18.x, 20.x] # Runs tests on multiple versions
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
         with:
-          node-version: ${{ matrix.node-version }}
-          cache: 'npm'
+          java-version: '17'
+          distribution: 'temurin'
+          cache: maven
 
-      - name: Install dependencies
-        run: npm ci
+      - name: Build with Maven
+        run: mvn clean compile
 
       - name: Run API Tests
-        run: npm test
-        env:
-          # If your tests need a database or specific API key
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
-          API_KEY: ${{ secrets.API_KEY }}
+        # This runs your TestNG tests via Maven Surefire
+        run: mvn test -DsuiteXmlFile=src/test/resources/testng.xml
+
+      - name: Upload Test Report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: testng-report
+          path: target/surefire-reports/
