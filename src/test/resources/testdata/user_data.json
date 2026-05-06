@@ -1,12 +1,14 @@
 [
   {
     "name": "johndoe",
-    "password": "password123",
-    "email": "john@example.com"
+    "job": "johndoe",
+    "email": "john@example.com",
+    "password": "password123"
   },
   {
-    "name": "janedoe",
-    "password": "securePass456",
-    "email": "jane@example.com"
+    "name": "johndoe",
+    "job": "johndoe",
+    "email": "john@example.com",
+    "password": "password123"
   }
 ]
