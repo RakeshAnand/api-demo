@@ -55,7 +55,7 @@ public class UserTests extends BaseTest {
                 .build();
     }
 
-    @Test(priority = 1, enabled = false)
+    @Test(priority = 1, enabled = true)
     public void testLoginSuccess() {
         // Correct login payload (email + password only)
         LoginRequest credentials = new LoginRequest("eve.holt@reqres.in", "cityslicka");
@@ -69,7 +69,7 @@ public class UserTests extends BaseTest {
         System.out.println("Login Token: " + token);
     }
 
-    @Test(priority = 2, enabled = false)
+    @Test(priority = 2, enabled = true)
     public void testLoginFailure() {
         // Missing password case
         LoginRequest credentials = new LoginRequest("peter@klaven", null);
@@ -82,7 +82,7 @@ public class UserTests extends BaseTest {
         Assert.assertEquals(error, "Missing password");
     }
 
-    @Test(priority = 3, enabled = false)
+    @Test(priority = 3, enabled = true)
     public void testPostUser() {
         Response response = UserEndpoints.createUser(userPayload);
 
@@ -93,7 +93,7 @@ public class UserTests extends BaseTest {
         Assert.assertEquals(response.jsonPath().getString("job"), userPayload.getJob());
     }
 
-    @Test(priority = 4, enabled = false)
+    @Test(priority = 4, enabled = true)
     public void testGetUser() {
         Response response = UserEndpoints.getUser("2");
 
