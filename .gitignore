@@ -32,3 +32,18 @@ Thumbs.db
 # Temporary files
 *.tmp
 *.swp
+
+# Allure binaries (no longer needed in the repo)
+.allure/
+
+# Test results and generated reports
+allure-results/
+allure-report/
+
+# Maven build outputs (covers target/allure-results)
+target/
+
+# IDE specific files
+.idea/
+.vscode/
+*.iml
